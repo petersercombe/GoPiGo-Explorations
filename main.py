@@ -1,22 +1,17 @@
 from motor import *
 from time import sleep
 
-# go in a straight line for 2 seconds.
-motor()
-sleep(2)
-gpg.stop()
+# Delay start of program so you can disconnect peripherals and place on ground
+sleep(15)
 
-# spin right for 2 seconds
-motor(0, 1)
-sleep(2)
-gpg.stop()
+sensor_readings = None
+servo = gpg.init_servo('SERVO1')
+dist = gpg.init_distance_sensor('I2C')
+sleep(0.1)
 
-# spin left for 2 seconds
-motor(0, -1)
-sleep(2)
-gpg.stop()
+# start
+servo.rotate_servo(90)
+while dist.read() > 5:
+    motor()
 
-# go in a straight line backwards for 2 seconds.
-motor(-0.5, 0)
-sleep(2)
 gpg.stop()
