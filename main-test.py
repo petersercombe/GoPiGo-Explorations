@@ -4,5 +4,7 @@ import keyboardController as kc
 kc.init()
 
 while True:
-    lSpeed, rSpeed = kc.main()
-    motor(lSpeed, rSpeed)
+    throttle, steering = kc.main()
+    motor(throttle, steering)
+    # Capture image from camera
+    # Save throttle/steering values with image
