@@ -1,9 +1,9 @@
 # Import required modules
 import time
-#from easygopigo3 import EasyGoPiGo3
+from easygopigo3 import EasyGoPiGo3
 
 # Initiating the GoPiGo object
-#gpg = EasyGoPiGo3()
+gpg = EasyGoPiGo3()
 
 # set max speed
 maxSpeed = 50
@@ -20,5 +20,5 @@ def motor(throttle=0.5, steering=0):
     elif rSpeed < -maxSpeed: rSpeed = -maxSpeed
 
     # Control the speed of each motor individually
-    #gpg.steer(lSpeed, rSpeed)
+    gpg.steer(lSpeed, rSpeed)
     print(lSpeed, rSpeed)
