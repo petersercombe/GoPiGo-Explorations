@@ -10,9 +10,7 @@ kc.init()
 
 # Initialise the camera
 camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 15
-rawCapture = PiRGBArray(camera, size=(640, 480))
+rawCapture = PiRGBArray(camera, size=(320, 240))
 sleep(2)
 
 # Set up folders for storing the images in.
@@ -20,7 +18,7 @@ currentFolder = os.path.dirname(os.path.realpath(sys.argv[0]))
 imagesFolder = currentFolder + '/images/'
 if not os.path.exists(imagesFolder): os.mkdir(imagesFolder) #Create folder if it doesn't exist
 
-for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True, resize=(320, 240)):
     throttle, steering = kc.main()
     motor(throttle, steering)
     sleep(0.05)
