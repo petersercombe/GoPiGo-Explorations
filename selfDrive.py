@@ -17,7 +17,7 @@ camera = PiCamera()
 
 # Load Lobe TF Lite model
 # --> Change model path
-model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGo Lobe TFLite')
+model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGov2')
 
 camera.start_preview(alpha=200)
 sleep(2)
@@ -26,8 +26,8 @@ sleep(2)
 
 if __name__ == '__main__':
 
-# Adjust speed factor if your bot is over or under steering.
-speedFactor = 0.8
+    # Adjust speed factor if your bot is over or under steering.
+    speedFactor = 0.8
 
     while True:
         stream = io.BytesIO()
