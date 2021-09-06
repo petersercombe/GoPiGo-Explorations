@@ -3,7 +3,7 @@ from picamera import PiCamera
 
 from time import sleep
 import datetime as dt
-import io, atexit
+import io
 from PIL import Image
 
 # Import Lobe python library
