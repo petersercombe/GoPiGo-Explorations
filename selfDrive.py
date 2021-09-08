@@ -15,6 +15,9 @@ from motor import *
 # Create a camera object
 camera = PiCamera()
 
+# Set size of images - this ideally is the same as the model used to train the images.
+imageSize = (160, 120)
+
 # Load Lobe TF Lite model
 # --> Change model path
 model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGov2')
@@ -31,7 +34,7 @@ if __name__ == '__main__':
 
     while True:
         stream = io.BytesIO()
-        camera.capture(stream, format='jpeg', resize=(320, 240), use_video_port=True)
+        camera.capture(stream, format='jpeg', resize=imageSize, use_video_port=True)
         # "Rewind" the stream to the beginning so we can read its content
         stream.seek(0)
         image = Image.open(stream)
