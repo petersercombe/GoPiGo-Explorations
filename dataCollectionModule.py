@@ -11,7 +11,7 @@ kc.init()
 # Initialise the camera
 camera = PiCamera()
 # Set size of images to be collected and trained
-imageSize = (160, 120)
+imageSize = (160, 128)
 
 rawCapture = PiRGBArray(camera, size=imageSize)
 sleep(2)
