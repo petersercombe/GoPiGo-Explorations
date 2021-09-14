@@ -16,7 +16,7 @@ from motor import *
 camera = PiCamera()
 
 # Set size of images - this ideally is the same as the model used to train the images.
-imageSize = (160, 120)
+imageSize = (160, 128)
 
 # Load Lobe TF Lite model
 # --> Change model path

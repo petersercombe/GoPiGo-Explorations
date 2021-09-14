@@ -3,7 +3,7 @@ from picamera import PiCamera
 
 from time import sleep
 import datetime as dt
-import io
+import io, cv2
 from PIL import Image
 
 # Import Lobe python library
@@ -22,7 +22,7 @@ imageSize = (160, 120)
 # --> Change model path
 model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGov2')
 
-camera.start_preview(alpha=200)
+# camera.start_preview(alpha=200)
 sleep(2)
 # Create the in-memory streami
 
@@ -37,10 +37,17 @@ if __name__ == '__main__':
         camera.capture(stream, format='jpeg', resize=imageSize, use_video_port=True)
         # "Rewind" the stream to the beginning so we can read its content
         stream.seek(0)
-        image = Image.open(stream)
+
+        start = dt.datetime.now()  # Capture start time
+
+        image = Image.open(stream).convert('L') # .convert('L') opens the image as greyscale
+        # Apply slight blur to image to soften edges
+        blurred = cv2.GaussianBlur(image, (3, 3), 0)
+        # Convert to binary black and white using adaptive threshold method
+        bnw = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 13)
+
         # Run photo through Lobe TF model and get prediction results
 
-        start = dt.datetime.now() #Capture start time
         # Perform model prediction
         result = model.predict(image)
         latency = (dt.datetime.now() - start).microseconds # Capture time difference
