@@ -1,0 +1,1 @@
+Trained on binary/black and white images, 160 x 128 resolution. ~ 95% accuracy rating.

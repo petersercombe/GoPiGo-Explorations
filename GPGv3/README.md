@@ -1,0 +1,1 @@
+Trained on colour images, 160 x 128 resolution.

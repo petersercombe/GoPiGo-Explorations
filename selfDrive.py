@@ -3,7 +3,7 @@ from picamera import PiCamera
 
 from time import sleep
 import datetime as dt
-import io
+import io, keyboard
 from PIL import Image
 
 # Import Lobe python library
@@ -24,7 +24,7 @@ model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGov2')
 
 camera.start_preview(alpha=200)
 sleep(2)
-# Create the in-memory stream
+# Create the in-memory streami
 
 
 if __name__ == '__main__':
