@@ -56,7 +56,17 @@ if __name__ == '__main__':
         print(result.prediction)
         print(latency)
 
+        cv2.imshow("Live View", image)
+
         motor(speedFactor, steering * speedFactor)
 
         # Clear the stream in preparation for the next frame
         stream.truncate()
+
+        key = cv2.waitKey(1) & 0xFF
+
+        # if 'x' key is pressed, break from the loop.
+        if key == ord('x'):
+            break
+
+    cv2.destroyAllWindows()
