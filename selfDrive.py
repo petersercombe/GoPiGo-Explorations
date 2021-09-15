@@ -1,9 +1,14 @@
+#####################################
+# This code needs the motor-stop.py #
+# file in order to stop the robot.  #
+#####################################
+
 # Import Pi Camera library
 from picamera import PiCamera
 
 from time import sleep
-import datetime as dt
-import io, keyboard
+import datetime as dt # So we can time how long each loop takes
+import io
 from PIL import Image
 
 # Import Lobe python library
@@ -13,7 +18,7 @@ from lobe import ImageModel
 from motor import *
 
 # Create a camera object
-camera = PiCamera()
+camera = PiCamera() # Instantiation
 
 # Set size of images - this ideally is the same as the model used to train the images.
 imageSize = (160, 128)
@@ -22,16 +27,15 @@ imageSize = (160, 128)
 # --> Change model path
 model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGov2')
 
-camera.start_preview(alpha=200)
 sleep(2)
-# Create the in-memory streami
-
+# Create the in-memory stream
 
 if __name__ == '__main__':
 
     # Adjust speed factor if your bot is over or under steering.
     speedFactor = 0.8
 
+    # Main drive loop:
     while True:
         stream = io.BytesIO()
         camera.capture(stream, format='jpeg', resize=imageSize, use_video_port=True)
