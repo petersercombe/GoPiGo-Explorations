@@ -34,28 +34,22 @@ sleep(2)
 if __name__ == '__main__':
 
     # Adjust speed factor if your bot is over or under steering.
-    speedFactor = 0.8
+    speedFactor = 1
+    steering = 0
 
     for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True, resize=imageSize):
-        # while True:
-        # stream = io.BytesIO() # Capture image to an in-memory stream
-        # camera.capture(stream, format='jpeg', resize=imageSize, use_video_port=True)
-        # "Rewind" the stream to the beginning so we can read its content
-        # stream.seek(0)
+        start = dt.datetime.now()  # Capture start time of the loop
+
         image = frame.array
-
-        start = dt.datetime.now()  # Capture start time
+        # Convert to grayscale
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        # image = Image.open(stream).convert('L') # .convert('L') opens the image as greyscale
-
         # Apply slight blur to image to soften edges
         blurred = cv2.GaussianBlur(gray, (3, 3), 0)
         # Convert to binary black and white using adaptive threshold method
         bnw = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 13)
 
+        # Convert to a PIL format for model
         img = Image.fromarray(bnw, 'L')
-
-        # Run photo through Lobe TF model and get prediction results
 
         # Perform model prediction
         result = model.predict(img)
@@ -70,7 +64,6 @@ if __name__ == '__main__':
         motor(speedFactor, steering * speedFactor)
 
         # Clear the stream in preparation for the next frame
-        # stream.truncate()
         rawCapture.truncate(0)
 
         key = cv2.waitKey(1) & 0xFF
