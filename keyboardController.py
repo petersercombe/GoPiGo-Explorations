@@ -24,14 +24,12 @@ def main():
         throttle = -1
     else: throttle = 0
 
-    if keyPress('j'):
-        steering = 0.5
-    elif keyPress('k'):
-        steering = 1
-    elif keyPress('h'):
-        steering = -0.5
-    elif keyPress('g'):
-        steering = -1
+    if keyPress('a') and keyPress('d'):
+        steering = 0
+    elif keyPress('a'):
+        steering = -0.75
+    elif keyPress('d'):
+        steering = 0.75
     else: steering = 0
 
     return throttle, steering

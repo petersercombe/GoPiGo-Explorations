@@ -1,36 +1,59 @@
-#from motor import *
-import keyboardController
+from motor import *
+import keyboardController as kc
 from time import sleep
+import cv2
+from picamera import PiCamera
+from picamera.array import PiRGBArray
 
-# Delay start of program so you can disconnect peripherals and place on ground
-sleep(15)
+# Initialise Keyboard Controller
+kc.init()
 
-# Initialise sensors and servos
-sensor_readings = None
-servo = gpg.init_servo('SERVO1')
-dist = gpg.init_distance_sensor('I2C')
-sleep(0.1)
+# Initialise the camera
+camera = PiCamera()
+# Set size of images to be collected and trained
+# If you want a larger image size, use (320, 256) or (640, 512)
+imageSize = (160, 128)
 
+rawCapture = PiRGBArray(camera, size=imageSize)
+sleep(2)
 
+### NEW ###
 
-def checkLeft():
-    servo.rotate_servo(180)
-    sleep(0.3)
-    if dist.read() > 5:
-        pass
+# import modules for interacting with the local file system:
+import os, sys, datetime
+# Set up folders for storing the images in.
+currentFolder = os.path.dirname(os.path.realpath(sys.argv[0]))
+imagesFolder = currentFolder + '/images/'
+if not os.path.exists(imagesFolder): os.mkdir(imagesFolder) #Create folder if it doesn't exist
 
-def spin():
-    motor(0,-1)
-    sleep(0.5) #modify this so you get a 90 degree turn
-    gpg.stop()
-    servo.rotate_servo(90)
+###########
 
-# start
-#while True:
-    #servo.rotate_servo(90)
-#    if dist.read() > 5:
- #       motor()
-  #  else:
-   #     gpg.stop()
-    #    checkLeft()
+for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True, resize=imageSize):
+    throttle, steering = kc.main()
+    motor(throttle, steering)
+    sleep(0.05)
+    # Capture image from camera
+    image = frame.array
+    cv2.imshow("Live View", image)
 
+    ### NEW ###
+
+    # Save image into steering values folders if driving forwards
+    if throttle > 0:
+        folder = os.path.join(imagesFolder, str(steering))
+        if not os.path.exists(folder): os.mkdir(folder)
+        currentDT = datetime.datetime.now()
+        filename = os.path.join(folder, currentDT.strftime("%Y-%m-%d %H-%M-%S-%f") + '.jpg')
+        cv2.imwrite(filename, image)
+
+    ############
+
+    key = cv2.waitKey(1) & 0xFF
+
+    # Clear the stream in preparation for the next frame
+    rawCapture.truncate(0)
+    # if 'x' key is pressed, break from the loop.
+    if key == ord('x'):
+        break
+
+cv2.destroyAllWindows()
