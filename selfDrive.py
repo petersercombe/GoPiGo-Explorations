@@ -28,7 +28,7 @@ model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGo v1')
 
 # camera.start_preview(alpha=200)
 sleep(2)
-# Create the in-memory streami
+# Create the in-memory stream
 
 
 if __name__ == '__main__':
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         print(result.prediction)
         print(latency)
 
-        cv2.imshow("Live View", bnw)
+        cv2.imshow("Live View", image)
 
         motor(speedFactor, steering * speedFactor)
 
