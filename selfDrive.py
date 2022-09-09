@@ -24,7 +24,7 @@ sleep(2)
 
 # Load Lobe TF Lite model
 # --> Change model path to match the name of the folder your model is in.
-model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGo v1')
+model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGo TFLite')
 
 # camera.start_preview(alpha=200)
 sleep(2)
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         image = frame.array
 
         # Convert to a PIL format for model
-        img = Image.fromarray(image, 'L')
+        img = Image.fromarray(image)
 
         # Perform model prediction
         result = model.predict(img)
