@@ -41,15 +41,9 @@ if __name__ == '__main__':
         start = dt.datetime.now()  # Capture start time of the loop
 
         image = frame.array
-        # Convert to grayscale
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        # Apply slight blur to image to soften edges
-        blurred = cv2.GaussianBlur(gray, (3, 3), 0)
-        # Convert to binary black and white using adaptive threshold method
-        bnw = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 13)
 
         # Convert to a PIL format for model
-        img = Image.fromarray(bnw, 'L')
+        img = Image.fromarray(image, 'L')
 
         # Perform model prediction
         result = model.predict(img)
