@@ -30,6 +30,12 @@ model = ImageModel.load('/home/pi/Desktop/GoPiGo-Explorations/GoPiGo TFLite')
 sleep(2)
 # Create the in-memory stream
 
+font                   = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (10,120)
+fontScale              = 0.5
+fontColor              = (255,255,255)
+thickness              = 1
+lineType               = 2
 
 if __name__ == '__main__':
 
@@ -52,6 +58,14 @@ if __name__ == '__main__':
         # camera.annotate_text = 'Steering:' + result.labels[0][0] + " latency" + str(latency)
         print(result.prediction)
         print(latency)
+
+        cv2.putText(img, 'Steering: {}, Latency: 0.{}'.format(result.prediction, latency),
+                    bottomLeftCornerOfText,
+                    font,
+                    fontScale,
+                    fontColor,
+                    thickness,
+                    lineType)
 
         cv2.imshow("Live View", image)
 
