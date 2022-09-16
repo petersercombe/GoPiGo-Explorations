@@ -37,7 +37,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     ### Convert to black and white
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray,(3,3),0)
-    bnw = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 13)
+    T, bnw = cv2.threshold(blurred, 220, 255, cv2.THRESH_BINARY)
 
     cv2.imshow("Live View", bnw)
 
