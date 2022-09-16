@@ -23,7 +23,7 @@ sleep(2)
 import os, sys, datetime
 # Set up folders for storing the images in.
 currentFolder = os.path.dirname(os.path.realpath(sys.argv[0]))
-imagesFolder = currentFolder + '/images/'
+imagesFolder = currentFolder + '/images_bnw/'
 if not os.path.exists(imagesFolder): os.mkdir(imagesFolder) #Create folder if it doesn't exist
 
 ###########
@@ -34,7 +34,12 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     sleep(0.05)
     # Capture image from camera
     image = frame.array
-    cv2.imshow("Live View", image)
+    ### Convert to black and white
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray,(3,3),0)
+    bnw = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 13)
+
+    cv2.imshow("Live View", bnw)
 
     ### NEW ###
 
@@ -44,7 +49,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         if not os.path.exists(folder): os.mkdir(folder)
         currentDT = datetime.datetime.now()
         filename = os.path.join(folder, currentDT.strftime("%Y-%m-%d %H-%M-%S-%f") + '.jpg')
-        cv2.imwrite(filename, image)
+        cv2.imwrite(filename, bnw)
 
     ############
 
