@@ -31,9 +31,8 @@ sleep(2)
 # Create the in-memory stream
 
 font                   = cv2.FONT_HERSHEY_SIMPLEX
-bottomLeftCornerOfText = (10,120)
-fontScale              = 0.5
-fontColor              = (255,255,255)
+fontScale              = 0.4
+fontColor              = (0,255,255)
 thickness              = 1
 lineType               = 2
 
@@ -59,8 +58,16 @@ if __name__ == '__main__':
         print(result.prediction)
         print(latency)
 
-        cv2.putText(img, 'Steering: {}, Latency: 0.{}'.format(result.prediction, latency),
-                    bottomLeftCornerOfText,
+        cv2.putText(image, 'Steering: {}'.format(result.prediction),
+                    (0,95),
+                    font,
+                    fontScale,
+                    fontColor,
+                    thickness,
+                    lineType)
+
+        cv2.putText(image, 'Latency: 0.{}s'.format(latency),
+                    (0, 120),
                     font,
                     fontScale,
                     fontColor,
